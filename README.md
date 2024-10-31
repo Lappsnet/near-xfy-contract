@@ -1,83 +1,31 @@
-# Hello NEAR Contract
+# NEAR Banking and Asset Tokenization Smart Contract
 
-The smart contract exposes two methods to enable storing and retrieving a greeting in the NEAR network.
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-```ts
-@NearBindgen({})
-class HelloNear {
-  greeting: string = "Hello";
+We are revolutionizing banking by tokenizing bank assets, deposit, debt, and investments. We bridge traditional finance with blockchain, offering faster, secure, and transparent financial services.
 
-  @view // This method is read-only and can be called for free
-  get_greeting(): string {
-    return this.greeting;
-  }
+The NEAR Banking and Asset Tokenization Contract is a smart contract developed using near-CLI for deployment on Near Testnet. It facilitates a secure and efficient banking ecosystem where financial institutions can:
 
-  @call // This method changes the state, for which it cost gas
-  set_greeting({ greeting }: { greeting: string }): void {
-    // Record a log permanently to the blockchain!
-    near.log(`Saving greeting ${greeting}`);
-    this.greeting = greeting;
-  }
-}
-```
+Tokenize Bank Assets: Represent deposits and loans as digital tokens on the blockchain.
+Manage Deposits: Accept and track deposits from clients securely.
+Issue Loans: Provide loans to clients backed by collateral.
+Repay Loans: Handle loan repayments with accrued interest.
+Withdraw Assets: Allow clients to withdraw their deposits when not locked in active loans.
+Liquidate Undersecured Loans: Maintain the bank's asset integrity by liquidating undercollateralized loans.
+Manage Interest Rates and Parameters: Update key financial parameters as the bank's needs evolve.
 
-<br />
+Features
+-Secure Asset Management: Banks can securely manage client deposits and issued loans with individual tracking.
+-Collateralized Loans: Clients must provide sufficient collateral to secure their loans, reducing default risk.
+-Dynamic Interest Rates: Interest rates are dynamically calculated based on loan amount and term.
+-Loan Repayment: Clients can repay their loans along with accrued interest seamlessly.
+-Withdrawal Mechanism: Clients can withdraw their funds, provided they are not tied up in active loans.
+-Liquidation Process: Authorized personnel can liquidate loans that fall below the required collateral ratio.
+-Insurance Fund: A portion of liquidated collateral is allocated to an insurance fund for added security.
+-Bank Controls: Authorized bank administrators can update key parameters like interest rates and collateral ratios.
 
-# Quickstart
+Architecture
+The contract comprises two main classes:
 
-1. Make sure you have installed [node.js](https://nodejs.org/en/download/package-manager/) >= 16.
-2. Install the [`NEAR CLI`](https://github.com/near/near-cli#setup)
-
-<br />
-
-## 1. Build and Test the Contract
-You can automatically compile and test the contract by running:
-
-```bash
-npm run build
-```
-
-<br />
-
-## 2. Create an Account and Deploy the Contract
-You can create a new account and deploy the contract by running:
-
-```bash
-near create-account <your-account.testnet> --useFaucet
-near deploy <your-account.testnet> build/release/hello_near.wasm
-```
-
-<br />
-
-
-## 3. Retrieve the Greeting
-
-`get_greeting` is a read-only method (aka `view` method).
-
-`View` methods can be called for **free** by anyone, even people **without a NEAR account**!
-
-```bash
-# Use near-cli to get the greeting
-near view <your-account.testnet> get_greeting
-```
-
-<br />
-
-## 4. Store a New Greeting
-`set_greeting` changes the contract's state, for which it is a `call` method.
-
-`Call` methods can only be invoked using a NEAR account, since the account needs to pay GAS for the transaction.
-
-```bash
-# Use near-cli to set a new greeting
-near call <your-account.testnet> set_greeting '{"greeting":"howdy"}' --accountId <your-account.testnet>
-```
-
-**Tip:** If you would like to call `set_greeting` using another account, first login into NEAR using:
-
-```bash
-# Use near-cli to login your NEAR account
-near login
-```
-
-and then use the logged account to sign the transaction: `--accountId <another-account>`.
+Loan: Represents an individual loan with details such as borrower, amount, interest rate, term, collateral, and timestamps.
+BankingContract: Manages deposits, loans, total funds, interest rates, collateral ratios, and the insurance fund.
